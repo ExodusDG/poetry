@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poetry Test Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: navajowhite;
+        }
+
+        body {
+            background: hsl(220deg 4% 13%);
+        }
+
+        .mainBlock {
+            background: hsl(232deg 11% 30%);
+            padding: 40px;
+            top: 100px;
+            position: relative;
+            width: 80%;
+            margin: 0 auto;
+            max-width: 600px;
+            height: auto;
+        }
+
+        .mainBlock>* {
+            width: 100%;
+        }
+
+        .mainBlock input {
+            appearance: none;
+            background-color: #fff;
+            border-radius: 2px;
+            border: 1px solid #d8d8d8;
+            color: #1a1919;
+            font-size: 16px;
+            letter-spacing: .5px;
+            margin-top: 8px;
+            order: 2;
+            padding: 12px 21px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .mainBlock label {
+            color: white;
+        }
+
+        #generate {
+            background-color: #1a1919;
+            border: 1px solid #1a1919;
+            color: #fff;
+            display: inline-block;
+            font-size: 12px;
+            font-style: normal;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            min-width: 100%;
+            max-width: 280px;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: .2s ease-in-out;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #result {
+            color: white;
+            margin-top: 50px;
+            white-space: pre-wrap;
+        }
+    </style>
+
+    <div class="mainBlock">
+
+        <label for="type">Poem type</label>
+        <input type="text" id="type">
+
+        <label for="subject">Subject</label>
+        <input type="text" id="subject">
+
+        <button class="generate" id="generate" onclick="sendData()">Generate</button>
+
+        <p id="result">Result will be here...</p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script>
+        function sendData() {
+            var typeInput = $('#type')
+            var subjectInput = $('#subject')
+
+            if (typeInput.val().length == 0 || subjectInput.val().length == 0) {
+                alert('Please fill all fields!')
+            } else {
+                var typeData = typeInput.val()
+                var subjectData = subjectInput.val()
+
+                var settings = {
+                    "url": "http://localhost:3000/generate",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    "data": {
+                        "type": typeData,
+                        "subject": subjectData
+                    }
+                };
+
+                $.ajax(settings).done(function (response) {
+                    console.log(response);
+                    $('#result').text(response.answer)
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
